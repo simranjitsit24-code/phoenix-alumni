@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Connections - Phoenix Alumni</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    /* Stats Overview */
+    .stats-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .stat-item .number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #667eea;
+      display: block;
+    }
+
+    .stat-item .label {
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    /* Tabs */
+    .tabs-container {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .tabs-header {
+      display: flex;
+      background: #f8f9fa;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .tab-button {
+      flex: 1;
+      padding: 1rem 2rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #666;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .tab-button.active {
+      color: #667eea;
+      background: white;
+    }
+
+    .tab-button.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: #667eea;
+    }
+
+    .tab-button:hover:not(.active) {
+      background: #e9ecef;
+    }
+
+    .tab-badge {
+      background: #667eea;
+      color: white;
+      border-radius: 12px;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
+      margin-left: 0.5rem;
+    }
+
+    /* Tab Content */
+    .tab-content {
+      display: none;
+      padding: 2rem;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Student Cards Grid */
+    .students-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Student Card */
+    .student-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      border-left: 4px solid #667eea;
+    }
+
+    .student-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .student-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .student-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .student-info h3 {
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .student-meta {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .student-details {
+      margin-bottom: 1.5rem;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .detail-row i {
+      width: 16px;
+      color: #667eea;
+    }
+
+    .skills-container {
+      margin: 1rem 0;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .skill-tag {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .mentorship-reason {
+      background: #f8f9ff;
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 1rem 0;
+      border-left: 3px solid #667eea;
+    }
+
+    .mentorship-reason h4 {
+      color: #333;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .mentorship-reason p {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-accept {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-accept:hover {
+      background: #218838;
+      transform: translateY(-1px);
+    }
+
+    .btn-reject {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-reject:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+
+    .btn-view {
+      background: #17a2b8;
+      color: white;
+    }
+
+    .btn-view:hover {
+      background: #138496;
+      transform: translateY(-1px);
+    }
+
+    .btn-message {
+      background: #6f42c1;
+      color: white;
+    }
+
+    .btn-message:hover {
+      background: #5a2d91;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    /* Status Badges */
+    .status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-left: auto;
+    }
+
+    .status-accepted {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .modal-header h2 {
+      color: #333;
+    }
+
+    .close {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .close:hover {
+      color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      .tabs-header {
+        flex-direction: column;
+      }
+
+      .tab-button {
+        padding: 0.75rem 1rem;
+      }
+
+      .students-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        justify-content: center;
+      }
+
+      .modal-content {
+        margin: 10% auto;
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">Phoenix Alumni</div>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="profile.html">Profile</a>
+        <a href="connections.html" class="active">Connections</a>
+        <a href="mentees.html">My Mentees</a>
+        <a href="analytics.html">Analytics</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1><i class="fas fa-users"></i> Student Connections</h1>
+      <p>Manage mentorship requests and connect with students seeking guidance</p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-overview">
+      <div class="stat-item">
+        <span class="number" id="pending-count">8</span>
+        <div class="label">Pending Requests</div>
+      </div>
+      <div class="stat-item">
+        <span class="number" id="accepted-count">24</span>
+        <div class="label">Accepted Students</div>
+      </div>
+      <div class="stat-item">
+        <span class="number" id="rejected-count">3</span>
+        <div class="label">Declined Requests</div>
+      </div>
+      <div class="stat-item">
+        <span class="number" id="total-count">35</span>
+        <div class="label">Total Connections</div>
+      </div>
+    </div>
+
+    <!-- Tabs Container -->
+    <div class="tabs-container">
+      <div class="tabs-header">
+        <button class="tab-button active" data-tab="pending">
+          Pending Requests
+          <span class="tab-badge" id="pending-badge">8</span>
+        </button>
+        <button class="tab-button" data-tab="accepted">
+          Accepted
+          <span class="tab-badge" id="accepted-badge">24</span>
+        </button>
+        <button class="tab-button" data-tab="rejected">
+          Rejected
+          <span class="tab-badge" id="rejected-badge">3</span>
+        </button>
+      </div>
+
+      <!-- Pending Tab -->
+      <div class="tab-content active" id="pending-tab">
+        <div class="students-grid" id="pending-students">
+          <!-- Pending students will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Accepted Tab -->
+      <div class="tab-content" id="accepted-tab">
+        <div class="students-grid" id="accepted-students">
+          <!-- Accepted students will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Rejected Tab -->
+      <div class="tab-content" id="rejected-tab">
+        <div class="students-grid" id="rejected-students">
+          <!-- Rejected students will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Student Profile Modal -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Student Profile</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div id="profile-details">
+        <!-- Profile details will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Modal -->
+  <div id="message-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Send Message</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div id="message-form">
+        <div style="margin-bottom: 1rem;">
+          <label for="message-subject" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Subject:</label>
+          <input type="text" id="message-subject" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px;" placeholder="Enter message subject">
+        </div>
+        <div style="margin-bottom: 1.5rem;">
+          <label for="message-content" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Message:</label>
+          <textarea id="message-content" rows="5" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; resize: vertical;" placeholder="Type your message here..."></textarea>
+        </div>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+          <button class="btn btn-secondary" onclick="closeModal('message-modal')">Cancel</button>
+          <button class="btn btn-message" onclick="sendMessage()">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample student data
+    const studentsData = {
+      pending: [
+        {
+          id: 1,
+          name: "Alex Chen",
+          branch: "Computer Science",
+          batch: "2024",
+          year: "Final Year",
+          skills: ["React", "Node.js", "Python", "Machine Learning"],
+          reason: "I'm looking for guidance on transitioning from academia to industry, particularly in web development and building full-stack applications.",
+          email: "alex.chen@student.edu",
+          phone: "+1-234-567-8901",
+          avatar: "AC"
+        },
+        {
+          id: 2,
+          name: "Maria Rodriguez",
+          branch: "Data Science",
+          batch: "2025",
+          year: "Third Year",
+          skills: ["Python", "R", "SQL", "Tableau", "Statistics"],
+          reason: "I need help with internship preparation, interview skills, and understanding industry expectations for data science roles.",
+          email: "maria.rodriguez@student.edu",
+          phone: "+1-234-567-8902",
+          avatar: "MR"
+        },
+        {
+          id: 3,
+          name: "David Kim",
+          branch: "Information Technology",
+          batch: "2024",
+          year: "Final Year",
+          skills: ["Java", "Spring Boot", "AWS", "Docker"],
+          reason: "Seeking mentorship on cloud technologies and DevOps practices. Want to learn about industry best practices and career growth.",
+          email: "david.kim@student.edu",
+          phone: "+1-234-567-8903",
+          avatar: "DK"
+        },
+        {
+          id: 4,
+          name: "Sarah Johnson",
+          branch: "Computer Science",
+          batch: "2025",
+          year: "Third Year",
+          skills: ["JavaScript", "React", "MongoDB", "Express"],
+          reason: "Looking for guidance on open source contributions and building a strong portfolio for tech internships.",
+          email: "sarah.johnson@student.edu",
+          phone: "+1-234-567-8904",
+          avatar: "SJ"
+        },
+        {
+          id: 5,
+          name: "Michael Brown",
+          branch: "Cybersecurity",
+          batch: "2024",
+          year: "Final Year",
+          skills: ["Ethical Hacking", "Network Security", "Python", "Linux"],
+          reason: "Need advice on cybersecurity career paths, certifications, and hands-on project ideas for building practical skills.",
+          email: "michael.brown@student.edu",
+          phone: "+1-234-567-8905",
+          avatar: "MB"
+        },
+        {
+          id: 6,
+          name: "Emily Watson",
+          branch: "Data Science",
+          batch: "2025",
+          year: "Third Year",
+          skills: ["Python", "TensorFlow", "Pandas", "Data Visualization"],
+          reason: "Interested in AI/ML research opportunities and guidance on pursuing higher studies vs industry roles.",
+          email: "emily.watson@student.edu",
+          phone: "+1-234-567-8906",
+          avatar: "EW"
+        },
+        {
+          id: 7,
+          name: "James Wilson",
+          branch: "Software Engineering",
+          batch: "2024",
+          year: "Final Year",
+          skills: ["C++", "System Design", "Algorithms", "Git"],
+          reason: "Looking for mentorship on system design concepts and preparation for technical interviews at top tech companies.",
+          email: "james.wilson@student.edu",
+          phone: "+1-234-567-8907",
+          avatar: "JW"
+        },
+        {
+          id: 8,
+          name: "Lisa Garcia",
+          branch: "Web Development",
+          batch: "2025",
+          year: "Third Year",
+          skills: ["HTML", "CSS", "JavaScript", "Vue.js", "PHP"],
+          reason: "Seeking guidance on freelancing opportunities, client management, and building a sustainable web development career.",
+          email: "lisa.garcia@student.edu",
+          phone: "+1-234-567-8908",
+          avatar: "LG"
+        }
+      ],
+      accepted: [
+        {
+          id: 101,
+          name: "John Doe",
+          branch: "Computer Science",
+          batch: "2023",
+          year: "Alumni",
+          skills: ["Full Stack", "React", "Node.js"],
+          reason: "Guidance on career transition",
+          status: "Active Mentorship",
+          acceptedDate: "2024-10-15",
+          avatar: "JD"
+        },
+        {
+          id: 102,
+          name: "Jane Smith",
+          branch: "Data Science",
+          batch: "2023",
+          year: "Alumni",
+          skills: ["Python", "Machine Learning", "SQL"],
+          reason: "Industry insights and networking",
+          status: "Active Mentorship",
+          acceptedDate: "2024-10-20",
+          avatar: "JS"
+        }
+        // Add more accepted students...
+      ],
+      rejected: [
+        {
+          id: 201,
+          name: "Tom Anderson",
+          branch: "Information Technology",
+          batch: "2024",
+          year: "Final Year",
+          skills: ["Java", "Spring"],
+          reason: "Basic programming help",
+          rejectedDate: "2024-11-10",
+          rejectedReason: "Outside expertise area",
+          avatar: "TA"
+        }
+        // Add more rejected students...
+      ]
+    };
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadStudents('pending');
+      updateStats();
+      initializeTabs();
+      initializeModals();
+    });
+
+    // Tab functionality
+    function initializeTabs() {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const targetTab = this.getAttribute('data-tab');
+          switchTab(targetTab);
+        });
+      });
+    }
+
+    function switchTab(tabName) {
+      // Remove active class from all tabs and contents
+      document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      // Add active class to clicked tab and corresponding content
+      document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+      document.getElementById(`${tabName}-tab`).classList.add('active');
+      
+      // Load students for the active tab
+      loadStudents(tabName);
+    }
+
+    // Load students for a specific tab
+    function loadStudents(tabType) {
+      const container = document.getElementById(`${tabType}-students`);
+      const students = studentsData[tabType] || [];
+      
+      if (students.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <h3>No ${tabType} requests</h3>
+            <p>There are no ${tabType} mentorship requests at the moment.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = students.map(student => createStudentCard(student, tabType)).join('');
+    }
+
+    // Create student card HTML
+    function createStudentCard(student, type) {
+      const statusBadge = getStatusBadge(student, type);
+      const actionButtons = getActionButtons(student, type);
+      
+      return `
+        <div class="student-card" data-student-id="${student.id}">
+          <div class="student-header">
+            <div class="student-avatar">${student.avatar}</div>
+            <div class="student-info">
+              <h3>${student.name}</h3>
+              <div class="student-meta">${student.branch} • ${student.batch} • ${student.year}</div>
+            </div>
+            ${statusBadge}
+          </div>
+          
+          <div class="student-details">
+            <div class="detail-row">
+              <i class="fas fa-graduation-cap"></i>
+              <span>${student.branch} - ${student.year}</span>
+            </div>
+            <div class="detail-row">
+              <i class="fas fa-calendar"></i>
+              <span>Batch ${student.batch}</span>
+            </div>
+            ${student.email ? `
+              <div class="detail-row">
+                <i class="fas fa-envelope"></i>
+                <span>${student.email}</span>
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="skills-container">
+            <strong>Skills:</strong>
+            <div class="skills-list">
+              ${student.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+            </div>
+          </div>
+
+          <div class="mentorship-reason">
+            <h4>Reason for Mentorship:</h4>
+            <p>${student.reason}</p>
+          </div>
+
+          <div class="action-buttons">
+            ${actionButtons}
+          </div>
+        </div>
+      `;
+    }
+
+    // Get status badge based on student type
+    function getStatusBadge(student, type) {
+      switch(type) {
+        case 'pending':
+          return '<span class="status-badge status-pending">Pending</span>';
+        case 'accepted':
+          return '<span class="status-badge status-accepted">Accepted</span>';
+        case 'rejected':
+          return '<span class="status-badge status-rejected">Rejected</span>';
+        default:
+          return '';
+      }
+    }
+
+    // Get action buttons based on student type
+    function getActionButtons(student, type) {
+      const viewButton = `<button class="btn btn-view" onclick="viewProfile(${student.id}, '${type}')">
+        <i class="fas fa-eye"></i> View Profile
+      </button>`;
+      
+      const messageButton = `<button class="btn btn-message" onclick="openMessageModal('${student.name}', ${student.id})">
+        <i class="fas fa-envelope"></i> Send Message
+      </button>`;
+
+      switch(type) {
+        case 'pending':
+          return `
+            <button class="btn btn-accept" onclick="acceptStudent(${student.id})">
+              <i class="fas fa-check"></i> Accept
+            </button>
+            <button class="btn btn-reject" onclick="rejectStudent(${student.id})">
+              <i class="fas fa-times"></i> Reject
+            </button>
+            ${viewButton}
+          `;
+        case 'accepted':
+          return `${messageButton} ${viewButton}`;
+        case 'rejected':
+          return viewButton;
+        default:
+          return viewButton;
+      }
+    }
+
+    // Accept student function
+    function acceptStudent(studentId) {
+      const student = findStudent(studentId, 'pending');
+      if (!student) return;
+
+      if (confirm(`Accept mentorship request from ${student.name}?`)) {
+        // Show loading state
+        showLoading();
+        
+        setTimeout(() => {
+          // Move student from pending to accepted
+          studentsData.pending = studentsData.pending.filter(s => s.id !== studentId);
+          studentsData.accepted.push({
+            ...student,
+            status: 'Active Mentorship',
+            acceptedDate: new Date().toISOString().split('T')[0]
+          });
+          
+          // Refresh the current tab and update stats
+          loadStudents('pending');
+          updateStats();
+          
+          // Show success message
+          showNotification(`Successfully accepted ${student.name}'s mentorship request!`, 'success');
+        }, 1000);
+      }
+    }
+
+    // Reject student function
+    function rejectStudent(studentId) {
+      const student = findStudent(studentId, 'pending');
+      if (!student) return;
+
+      const reason = prompt(`Reason for rejecting ${student.name}'s request (optional):`);
+      if (reason !== null) {
+        // Show loading state
+        showLoading();
+        
+        setTimeout(() => {
+          // Move student from pending to rejected
+          studentsData.pending = studentsData.pending.filter(s => s.id !== studentId);
+          studentsData.rejected.push({
+            ...student,
+            rejectedDate: new Date().toISOString().split('T')[0],
+            rejectedReason: reason || 'No reason specified'
+          });
+          
+          // Refresh the current tab and update stats
+          loadStudents('pending');
+          updateStats();
+          
+          // Show success message
+          showNotification(`Rejected ${student.name}'s mentorship request`, 'info');
+        }, 1000);
+      }
+    }
+
+    // View profile function
+    function viewProfile(studentId, type) {
+      const student = findStudent(studentId, type);
+      if (!student) return;
+
+      const profileDetails = `
+        <div style="text-align: center; margin-bottom: 2rem;">
+          <div class="student-avatar" style="width: 100px; height: 100px; margin: 0 auto 1rem; font-size: 2rem;">
+            ${student.avatar}
+          </div>
+          <h2>${student.name}</h2>
+          <p style="color: #666;">${student.branch} • ${student.batch} • ${student.year}</p>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="margin-bottom: 0.5rem; color: #333;">Contact Information</h4>
+          <div class="detail-row">
+            <i class="fas fa-envelope"></i>
+            <span>${student.email || 'Not provided'}</span>
+          </div>
+          <div class="detail-row">
+            <i class="fas fa-phone"></i>
+            <span>${student.phone || 'Not provided'}</span>
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="margin-bottom: 0.5rem; color: #333;">Skills & Expertise</h4>
+          <div class="skills-list">
+            ${student.skills.map(skill => `<span class="skill-tag">${skill}</span>`).join('')}
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="margin-bottom: 0.5rem; color: #333;">Mentorship Request</h4>
+          <div style="background: #f8f9ff; padding: 1rem; border-radius: 8px; border-left: 3px solid #667eea;">
+            <p style="margin: 0; line-height: 1.5;">${student.reason}</p>
+          </div>
+        </div>
+        
+        ${student.acceptedDate ? `
+          <div style="margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem; color: #333;">Mentorship Details</h4>
+            <div class="detail-row">
+              <i class="fas fa-calendar-check"></i>
+              <span>Accepted on ${new Date(student.acceptedDate).toLocaleDateString()}</span>
+            </div>
+            <div class="detail-row">
+              <i class="fas fa-chart-line"></i>
+              <span>Status: ${student.status}</span>
+            </div>
+          </div>
+        ` : ''}
+        
+        ${student.rejectedDate ? `
+          <div style="margin-bottom: 1.5rem;">
+            <h4 style="margin-bottom: 0.5rem; color: #333;">Rejection Details</h4>
+            <div class="detail-row">
+              <i class="fas fa-calendar-times"></i>
+              <span>Rejected on ${new Date(student.rejectedDate).toLocaleDateString()}</span>
+            </div>
+            <div class="detail-row">
+              <i class="fas fa-comment"></i>
+              <span>Reason: ${student.rejectedReason}</span>
+            </div>
+          </div>
+        ` : ''}
+      `;
+
+      document.getElementById('profile-details').innerHTML = profileDetails;
+      document.getElementById('profile-modal').style.display = 'block';
+    }
+
+    // Message modal functions
+    function openMessageModal(studentName, studentId) {
+      document.getElementById('message-subject').value = `Mentorship Discussion with ${studentName}`;
+      document.getElementById('message-content').value = '';
+      document.getElementById('message-modal').setAttribute('data-student-id', studentId);
+      document.getElementById('message-modal').style.display = 'block';
+    }
+
+    function sendMessage() {
+      const subject = document.getElementById('message-subject').value;
+      const content = document.getElementById('message-content').value;
+      const studentId = document.getElementById('message-modal').getAttribute('data-student-id');
+      
+      if (!subject.trim() || !content.trim()) {
+        alert('Please fill in both subject and message fields.');
+        return;
+      }
+      
+      // Simulate sending message
+      showLoading();
+      setTimeout(() => {
+        closeModal('message-modal');
+        showNotification('Message sent successfully!', 'success');
+        
+        // Clear form
+        document.getElementById('message-subject').value = '';
+        document.getElementById('message-content').value = '';
+      }, 1000);
+    }
+
+    // Modal functions
+    function initializeModals() {
+      const modals = document.querySelectorAll('.modal');
+      const closeButtons = document.querySelectorAll('.close');
+      
+      closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          this.closest('.modal').style.display = 'none';
+        });
+      });
+      
+      modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Utility functions
+    function findStudent(studentId, type) {
+      return studentsData[type].find(student => student.id === studentId);
+    }
+
+    function updateStats() {
+      document.getElementById('pending-count').textContent = studentsData.pending.length;
+      document.getElementById('accepted-count').textContent = studentsData.accepted.length;
+      document.getElementById('rejected-count').textContent = studentsData.rejected.length;
+      document.getElementById('total-count').textContent = 
+        studentsData.pending.length + studentsData.accepted.length + studentsData.rejected.length;
+      
+      // Update tab badges
+      document.getElementById('pending-badge').textContent = studentsData.pending.length;
+      document.getElementById('accepted-badge').textContent = studentsData.accepted.length;
+      document.getElementById('rejected-badge').textContent = studentsData.rejected.length;
+    }
+
+    function showLoading() {
+      // Simple loading indicator
+      const activeTab = document.querySelector('.tab-content.active .students-grid');
+      if (activeTab) {
+        activeTab.innerHTML = `
+          <div class="loading">
+            <div class="spinner"></div>
+            <p>Processing request...</p>
+          </div>
+        `;
+      }
+    }
+
+    function showNotification(message, type = 'info') {
+      // Create notification element
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        max-width: 350px;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        background: ${type === 'success' ? '#d4edda' : type === 'error' ? '#f8d7da' : '#d1ecf1'};
+        color: ${type === 'success' ? '#155724' : type === 'error' ? '#721c24' : '#0c5460'};
+        border: 1px solid ${type === 'success' ? '#c3e6cb' : type === 'error' ? '#f5c6cb' : '#bee5eb'};
+      `;
+      
+      notification.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+          <span>${message}</span>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      // Show notification
+      setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      // Auto remove
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 4000);
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        // Close any open modals
+        document.querySelectorAll('.modal').forEach(modal => {
+          modal.style.display = 'none';
+        });
+      }
+    });
+  </script>
+</body>
+</html>

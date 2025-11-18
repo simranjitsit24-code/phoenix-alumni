@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Mentees - Phoenix Alumni</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .page-header {
+      margin-bottom: 2rem;
+    }
+
+    .page-header h1 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+
+    .page-header p {
+      color: #666;
+      font-size: 1.1rem;
+    }
+
+    /* Stats Overview */
+    .stats-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-2px);
+    }
+
+    .stat-item .number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #667eea;
+      display: block;
+    }
+
+    .stat-item .label {
+      color: #666;
+      margin-top: 0.5rem;
+    }
+
+    /* Main Content Layout */
+    .main-content {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 2rem;
+    }
+
+    /* Mentees List */
+    .mentees-section {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .section-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-header h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .filter-tabs {
+      display: flex;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .filter-tab {
+      padding: 0.5rem 1rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-tab.active {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .mentees-list {
+      padding: 2rem;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    /* Mentee Card */
+    .mentee-card {
+      border: 2px solid #f0f2f5;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s;
+      background: #fafbfc;
+    }
+
+    .mentee-card:hover {
+      border-color: #667eea;
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .mentee-card.active {
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+    }
+
+    .mentee-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .mentee-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+    }
+
+    .mentee-info h3 {
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .mentee-meta {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .mentee-status {
+      margin-left: auto;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .status-active {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-paused {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-completed {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .mentee-details {
+      margin-bottom: 1rem;
+    }
+
+    .detail-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .detail-row i {
+      width: 16px;
+      color: #667eea;
+    }
+
+    .progress-section {
+      margin-bottom: 1rem;
+    }
+
+    .progress-bar {
+      background: #e9ecef;
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
+    .progress-text {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .mentee-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.4rem 0.8rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-chat {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-chat:hover {
+      background: #218838;
+      transform: translateY(-1px);
+    }
+
+    .btn-schedule {
+      background: #17a2b8;
+      color: white;
+    }
+
+    .btn-schedule:hover {
+      background: #138496;
+      transform: translateY(-1px);
+    }
+
+    .btn-history {
+      background: #6f42c1;
+      color: white;
+    }
+
+    .btn-history:hover {
+      background: #5a2d91;
+      transform: translateY(-1px);
+    }
+
+    .btn-end {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-end:hover {
+      background: #c82333;
+      transform: translateY(-1px);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .sidebar-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      background: #f8f9fa;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .sidebar-header h3 {
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .sidebar-content {
+      padding: 1.5rem;
+    }
+
+    /* Chat Interface */
+    .chat-messages {
+      height: 300px;
+      overflow-y: auto;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #f8f9fa;
+    }
+
+    .message {
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .message.own {
+      flex-direction: row-reverse;
+    }
+
+    .message-bubble {
+      background: #667eea;
+      color: white;
+      padding: 0.75rem 1rem;
+      border-radius: 18px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+
+    .message.own .message-bubble {
+      background: #28a745;
+    }
+
+    .message-time {
+      font-size: 0.7rem;
+      color: #666;
+      margin-top: 0.25rem;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 0.75rem;
+      border: 1px solid #dee2e6;
+      border-radius: 20px;
+      outline: none;
+    }
+
+    .chat-input input:focus {
+      border-color: #667eea;
+    }
+
+    .send-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    .send-btn:hover {
+      background: #5a6fd8;
+      transform: scale(1.05);
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .quick-action {
+      background: #f8f9ff;
+      border: 2px solid #e3f2fd;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: #333;
+    }
+
+    .quick-action:hover {
+      border-color: #667eea;
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    .quick-action i {
+      font-size: 1.5rem;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    /* Upcoming Sessions */
+    .session-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9ff;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border-left: 4px solid #667eea;
+    }
+
+    .session-time {
+      background: #667eea;
+      color: white;
+      padding: 0.5rem;
+      border-radius: 8px;
+      text-align: center;
+      min-width: 60px;
+    }
+
+    .session-info h4 {
+      margin-bottom: 0.25rem;
+      color: #333;
+    }
+
+    .session-info p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 3% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .modal-header h2 {
+      color: #333;
+    }
+
+    .close {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .close:hover {
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #5a6fd8;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    /* Session History */
+    .history-item {
+      border-left: 4px solid #667eea;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background: #f8f9ff;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .history-date {
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 0.5rem;
+    }
+
+    .history-content {
+      color: #666;
+      line-height: 1.6;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: #666;
+    }
+
+    .empty-state i {
+      font-size: 4rem;
+      color: #ccc;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state h3 {
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        order: -1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .stats-overview {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .mentee-actions {
+        justify-content: center;
+      }
+
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">Phoenix Alumni</div>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="profile.html">Profile</a>
+        <a href="connections.html">Connections</a>
+        <a href="mentees.html" class="active">My Mentees</a>
+        <a href="analytics.html">Analytics</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1><i class="fas fa-users"></i> My Mentees</h1>
+      <p>Manage your ongoing mentorships and track student progress</p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-overview">
+      <div class="stat-item">
+        <span class="number" id="active-mentees">12</span>
+        <div class="label">Active Mentees</div>
+      </div>
+      <div class="stat-item">
+        <span class="number" id="total-sessions">48</span>
+        <div class="label">Total Sessions</div>
+      </div>
+      <div class="stat-item">
+        <span class="number" id="avg-progress">78%</span>
+        <div class="label">Avg Progress</div>
+      </div>
+      <div class="stat-item">
+        <span class="number" id="upcoming-sessions">5</span>
+        <div class="label">Upcoming Sessions</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Mentees Section -->
+      <div class="mentees-section">
+        <div class="section-header">
+          <h2><i class="fas fa-graduation-cap"></i> Your Mentees</h2>
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">All</button>
+            <button class="filter-tab" data-filter="active">Active</button>
+            <button class="filter-tab" data-filter="paused">Paused</button>
+            <button class="filter-tab" data-filter="completed">Completed</button>
+          </div>
+        </div>
+        <div class="mentees-list" id="mentees-list">
+          <!-- Mentees will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Chat Interface -->
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <h3><i class="fas fa-comments"></i> Quick Chat</h3>
+          </div>
+          <div class="sidebar-content">
+            <div id="chat-mentee-name" style="text-align: center; margin-bottom: 1rem; color: #666;">
+              Select a mentee to start chatting
+            </div>
+            <div class="chat-messages" id="chat-messages">
+              <div style="text-align: center; color: #999; margin-top: 100px;">
+                <i class="fas fa-comment-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+                <p>Select a mentee to view messages</p>
+              </div>
+            </div>
+            <div class="chat-input">
+              <input type="text" id="chat-input" placeholder="Type your message..." disabled>
+              <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled>
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+          </div>
+          <div class="sidebar-content">
+            <div class="quick-actions">
+              <a href="#" class="quick-action" onclick="openScheduleModal()">
+                <i class="fas fa-calendar-plus"></i>
+                Schedule Session
+              </a>
+              <a href="#" class="quick-action" onclick="openBulkMessageModal()">
+                <i class="fas fa-broadcast-tower"></i>
+                Bulk Message
+              </a>
+              <a href="#" class="quick-action" onclick="exportProgress()">
+                <i class="fas fa-download"></i>
+                Export Progress
+              </a>
+              <a href="#" class="quick-action" onclick="openFeedbackModal()">
+                <i class="fas fa-star"></i>
+                Collect Feedback
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upcoming Sessions -->
+        <div class="sidebar-card">
+          <div class="sidebar-header">
+            <h3><i class="fas fa-clock"></i> Upcoming Sessions</h3>
+          </div>
+          <div class="sidebar-content" id="upcoming-sessions">
+            <!-- Sessions will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Schedule Session Modal -->
+  <div id="schedule-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Schedule New Session</h2>
+        <span class="close" onclick="closeModal('schedule-modal')">&times;</span>
+      </div>
+      <form id="schedule-form">
+        <div class="form-group">
+          <label for="session-mentee">Select Mentee:</label>
+          <select id="session-mentee" required>
+            <option value="">Choose a mentee...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="session-date">Date:</label>
+          <input type="date" id="session-date" required>
+        </div>
+        <div class="form-group">
+          <label for="session-time">Time:</label>
+          <input type="time" id="session-time" required>
+        </div>
+        <div class="form-group">
+          <label for="session-duration">Duration (minutes):</label>
+          <select id="session-duration" required>
+            <option value="30">30 minutes</option>
+            <option value="60" selected>1 hour</option>
+            <option value="90">1.5 hours</option>
+            <option value="120">2 hours</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="session-topic">Topic/Agenda:</label>
+          <textarea id="session-topic" rows="3" placeholder="What will you discuss in this session?"></textarea>
+        </div>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+          <button type="button" class="btn-secondary" onclick="closeModal('schedule-modal')">Cancel</button>
+          <button type="submit" class="btn-primary">
+            <i class="fas fa-calendar-plus"></i> Schedule Session
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Session History Modal -->
+  <div id="history-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Session History</h2>
+        <span class="close" onclick="closeModal('history-modal')">&times;</span>
+      </div>
+      <div id="history-content">
+        <!-- History will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- End Mentorship Modal -->
+  <div id="end-mentorship-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>End Mentorship</h2>
+        <span class="close" onclick="closeModal('end-mentorship-modal')">&times;</span>
+      </div>
+      <div style="margin-bottom: 2rem;">
+        <p style="color: #666; margin-bottom: 1rem;">
+          Are you sure you want to end the mentorship with <strong id="end-mentee-name"></strong>?
+        </p>
+        <div class="form-group">
+          <label for="end-reason">Reason for ending mentorship:</label>
+          <textarea id="end-reason" rows="4" placeholder="Optional: Provide a reason for ending this mentorship..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="send-completion-cert" checked>
+            Send completion certificate to mentee
+          </label>
+        </div>
+      </div>
+      <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+        <button type="button" class="btn-secondary" onclick="closeModal('end-mentorship-modal')">Cancel</button>
+        <button type="button" class="btn" style="background: #dc3545; color: white;" onclick="confirmEndMentorship()">
+          <i class="fas fa-handshake-slash"></i> End Mentorship
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample mentees data
+    const menteesData = [
+      {
+        id: 1,
+        name: "Alex Chen",
+        avatar: "AC",
+        branch: "Computer Science",
+        batch: "2024",
+        year: "Final Year",
+        status: "active",
+        progress: 85,
+        startDate: "2024-09-15",
+        totalSessions: 8,
+        nextSession: "2024-11-22 14:00",
+        lastMessage: "Thank you for the great session today!",
+        skills: ["React", "Node.js", "Python"],
+        goals: ["Full-stack development", "Interview preparation"],
+        email: "alex.chen@student.edu"
+      },
+      {
+        id: 2,
+        name: "Maria Rodriguez",
+        avatar: "MR",
+        branch: "Data Science",
+        batch: "2025",
+        year: "Third Year",
+        status: "active",
+        progress: 72,
+        startDate: "2024-10-01",
+        totalSessions: 6,
+        nextSession: "2024-11-23 10:00",
+        lastMessage: "Could we discuss ML algorithms next time?",
+        skills: ["Python", "R", "SQL", "Tableau"],
+        goals: ["Data analysis", "Machine learning"],
+        email: "maria.rodriguez@student.edu"
+      },
+      {
+        id: 3,
+        name: "David Kim",
+        avatar: "DK",
+        branch: "Information Technology",
+        batch: "2024",
+        year: "Final Year",
+        status: "paused",
+        progress: 45,
+        startDate: "2024-08-20",
+        totalSessions: 4,
+        nextSession: null,
+        lastMessage: "Taking a break for exams. Will resume after November.",
+        skills: ["Java", "Spring Boot", "AWS"],
+        goals: ["Cloud computing", "System design"],
+        email: "david.kim@student.edu"
+      },
+      {
+        id: 4,
+        name: "Sarah Johnson",
+        avatar: "SJ",
+        branch: "Computer Science",
+        batch: "2025",
+        year: "Third Year",
+        status: "active",
+        progress: 90,
+        startDate: "2024-07-10",
+        totalSessions: 12,
+        nextSession: "2024-11-21 16:00",
+        lastMessage: "Ready for the mock interview session!",
+        skills: ["JavaScript", "React", "MongoDB"],
+        goals: ["Frontend development", "Open source contributions"],
+        email: "sarah.johnson@student.edu"
+      },
+      {
+        id: 5,
+        name: "Michael Brown",
+        avatar: "MB",
+        branch: "Cybersecurity",
+        batch: "2024",
+        year: "Final Year",
+        status: "completed",
+        progress: 100,
+        startDate: "2024-06-01",
+        totalSessions: 15,
+        nextSession: null,
+        lastMessage: "Thank you for all your guidance! Got the job at SecureTech!",
+        skills: ["Ethical Hacking", "Network Security", "Python"],
+        goals: ["Security analyst role", "Certification preparation"],
+        email: "michael.brown@student.edu"
+      }
+    ];
+
+    // Chat messages data
+    const chatData = {
+      1: [
+        { type: 'received', message: 'Hi! Thanks for accepting my mentorship request.', time: '10:30 AM' },
+        { type: 'sent', message: 'Welcome! I\'m excited to work with you. What are your main goals?', time: '10:32 AM' },
+        { type: 'received', message: 'I want to improve my full-stack skills and prepare for interviews.', time: '10:35 AM' },
+        { type: 'sent', message: 'Perfect! Let\'s start with a project-based approach.', time: '10:36 AM' },
+        { type: 'received', message: 'Thank you for the great session today!', time: '2:15 PM' }
+      ],
+      2: [
+        { type: 'received', message: 'Hello! Looking forward to our data science sessions.', time: '9:00 AM' },
+        { type: 'sent', message: 'Great! Let\'s focus on practical ML projects.', time: '9:05 AM' },
+        { type: 'received', message: 'Could we discuss ML algorithms next time?', time: '11:20 AM' }
+      ]
+    };
+
+    // Session history data
+    const sessionHistory = {
+      1: [
+        { date: '2024-11-15', topic: 'React Hooks and State Management', duration: '60 min', notes: 'Covered useState, useEffect, and custom hooks. Alex showed good understanding.' },
+        { date: '2024-11-08', topic: 'Node.js API Development', duration: '90 min', notes: 'Built REST API with Express. Needs practice with authentication.' },
+        { date: '2024-11-01', topic: 'Project Planning & Architecture', duration: '60 min', notes: 'Discussed full-stack project structure and best practices.' }
+      ],
+      2: [
+        { date: '2024-11-10', topic: 'Machine Learning Fundamentals', duration: '75 min', notes: 'Introduction to supervised learning algorithms.' },
+        { date: '2024-11-03', topic: 'Data Preprocessing Techniques', duration: '60 min', notes: 'Pandas operations and data cleaning strategies.' }
+      ]
+    };
+
+    let currentMentee = null;
+    let currentFilter = 'all';
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      loadMentees();
+      loadUpcomingSessions();
+      initializeFilters();
+      initializeModals();
+      updateStats();
+    });
+
+    // Load mentees based on current filter
+    function loadMentees() {
+      const container = document.getElementById('mentees-list');
+      const filteredMentees = currentFilter === 'all' 
+        ? menteesData 
+        : menteesData.filter(mentee => mentee.status === currentFilter);
+
+      if (filteredMentees.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-user-graduate"></i>
+            <h3>No ${currentFilter} mentees</h3>
+            <p>You don't have any ${currentFilter} mentorships at the moment.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filteredMentees.map(mentee => createMenteeCard(mentee)).join('');
+    }
+
+    // Create mentee card HTML
+    function createMenteeCard(mentee) {
+      const statusClass = `status-${mentee.status}`;
+      const statusText = mentee.status.charAt(0).toUpperCase() + mentee.status.slice(1);
+      
+      return `
+        <div class="mentee-card" data-mentee-id="${mentee.id}" onclick="selectMentee(${mentee.id})">
+          <div class="mentee-header">
+            <div class="mentee-avatar">${mentee.avatar}</div>
+            <div class="mentee-info">
+              <h3>${mentee.name}</h3>
+              <div class="mentee-meta">${mentee.branch} • ${mentee.batch} • ${mentee.year}</div>
+            </div>
+            <span class="mentee-status ${statusClass}">${statusText}</span>
+          </div>
+          
+          <div class="mentee-details">
+            <div class="detail-row">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Started: ${new Date(mentee.startDate).toLocaleDateString()}</span>
+            </div>
+            <div class="detail-row">
+              <i class="fas fa-video"></i>
+              <span>${mentee.totalSessions} sessions completed</span>
+            </div>
+            <div class="detail-row">
+              <i class="fas fa-envelope"></i>
+              <span>${mentee.email}</span>
+            </div>
+            ${mentee.nextSession ? `
+              <div class="detail-row">
+                <i class="fas fa-clock"></i>
+                <span>Next: ${new Date(mentee.nextSession).toLocaleString()}</span>
+              </div>
+            ` : ''}
+          </div>
+
+          <div class="progress-section">
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${mentee.progress}%"></div>
+            </div>
+            <div class="progress-text">${mentee.progress}% Progress • Goals: ${mentee.goals.join(', ')}</div>
+          </div>
+
+          <div class="mentee-actions">
+            <button class="btn btn-chat" onclick="event.stopPropagation(); selectMentee(${mentee.id})">
+              <i class="fas fa-comment"></i> Chat
+            </button>
+            <button class="btn btn-schedule" onclick="event.stopPropagation(); openScheduleModal(${mentee.id})">
+              <i class="fas fa-calendar-plus"></i> Schedule
+            </button>
+            <button class="btn btn-history" onclick="event.stopPropagation(); viewHistory(${mentee.id})">
+              <i class="fas fa-history"></i> History
+            </button>
+            ${mentee.status === 'active' ? `
+              <button class="btn btn-end" onclick="event.stopPropagation(); openEndMentorshipModal(${mentee.id})">
+                <i class="fas fa-handshake-slash"></i> End
+              </button>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    // Select mentee and load chat
+    function selectMentee(menteeId) {
+      currentMentee = menteeId;
+      const mentee = menteesData.find(m => m.id === menteeId);
+      
+      // Update UI
+      document.querySelectorAll('.mentee-card').forEach(card => {
+        card.classList.remove('active');
+      });
+      document.querySelector(`[data-mentee-id="${menteeId}"]`).classList.add('active');
+      
+      // Update chat
+      document.getElementById('chat-mentee-name').textContent = `Chat with ${mentee.name}`;
+      loadChatMessages(menteeId);
+      
+      // Enable chat input
+      document.getElementById('chat-input').disabled = false;
+      document.getElementById('send-btn').disabled = false;
+    }
+
+    // Load chat messages
+    function loadChatMessages(menteeId) {
+      const chatContainer = document.getElementById('chat-messages');
+      const messages = chatData[menteeId] || [];
+      
+      if (messages.length === 0) {
+        chatContainer.innerHTML = `
+          <div style="text-align: center; color: #999; margin-top: 100px;">
+            <i class="fas fa-comment-alt" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+            <p>No messages yet. Start the conversation!</p>
+          </div>
+        `;
+        return;
+      }
+
+      chatContainer.innerHTML = messages.map(msg => `
+        <div class="message ${msg.type === 'sent' ? 'own' : ''}">
+          <div class="message-bubble">
+            ${msg.message}
+            <div class="message-time">${msg.time}</div>
+          </div>
+        </div>
+      `).join('');
+      
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // Send message
+    function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      
+      if (!message || !currentMentee) return;
+      
+      // Add message to chat data
+      if (!chatData[currentMentee]) {
+        chatData[currentMentee] = [];
+      }
+      
+      chatData[currentMentee].push({
+        type: 'sent',
+        message: message,
+        time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+      });
+      
+      // Reload chat
+      loadChatMessages(currentMentee);
+      
+      // Clear input
+      input.value = '';
+      
+      // Show notification
+      showNotification('Message sent successfully!', 'success');
+      
+      // Simulate reply after 2 seconds
+      setTimeout(() => {
+        const replies = [
+          "Thanks for the message!",
+          "Got it, will work on that.",
+          "Looking forward to our next session!",
+          "That's really helpful, thank you!",
+          "I'll review this before our meeting."
+        ];
+        
+        chatData[currentMentee].push({
+          type: 'received',
+          message: replies[Math.floor(Math.random() * replies.length)],
+          time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        });
+        
+        if (currentMentee && document.getElementById('chat-messages').children.length > 0) {
+          loadChatMessages(currentMentee);
+        }
+      }, 2000);
+    }
+
+    // Handle Enter key in chat input
+    document.getElementById('chat-input').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    // Initialize filter tabs
+    function initializeFilters() {
+      const filterTabs = document.querySelectorAll('.filter-tab');
+      filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          filterTabs.forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          currentFilter = this.getAttribute('data-filter');
+          loadMentees();
+        });
+      });
+    }
+
+    // Load upcoming sessions
+    function loadUpcomingSessions() {
+      const container = document.getElementById('upcoming-sessions');
+      const upcomingSessions = menteesData
+        .filter(mentee => mentee.nextSession)
+        .map(mentee => ({
+          name: mentee.name,
+          date: new Date(mentee.nextSession),
+          topic: 'Regular mentorship session'
+        }))
+        .sort((a, b) => a.date - b.date);
+
+      if (upcomingSessions.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; color: #666; padding: 2rem;">
+            <i class="fas fa-calendar-times" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+            <p>No upcoming sessions</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = upcomingSessions.map(session => `
+        <div class="session-item">
+          <div class="session-time">
+            <div style="font-size: 0.8rem;">${session.date.toLocaleDateString('en-US', {month: 'short'})}</div>
+            <div style="font-weight: bold;">${session.date.getDate()}</div>
+            <div style="font-size: 0.8rem;">${session.date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+          </div>
+          <div class="session-info">
+            <h4>${session.name}</h4>
+            <p>${session.topic}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Open schedule modal
+    function openScheduleModal(menteeId = null) {
+      const modal = document.getElementById('schedule-modal');
+      const select = document.getElementById('session-mentee');
+      
+      // Populate mentee select
+      select.innerHTML = '<option value="">Choose a mentee...</option>' +
+        menteesData.filter(m => m.status === 'active').map(mentee => 
+          `<option value="${mentee.id}" ${mentee.id === menteeId ? 'selected' : ''}>${mentee.name}</option>`
+        ).join('');
+      
+      // Set minimum date to today
+      document.getElementById('session-date').min = new Date().toISOString().split('T')[0];
+      
+      modal.style.display = 'block';
+    }
+
+    // Handle schedule form submission
+    document.getElementById('schedule-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const menteeId = document.getElementById('session-mentee').value;
+      const date = document.getElementById('session-date').value;
+      const time = document.getElementById('session-time').value;
+      const duration = document.getElementById('session-duration').value;
+      const topic = document.getElementById('session-topic').value;
+      
+      // Find mentee and update next session
+      const mentee = menteesData.find(m => m.id == menteeId);
+      if (mentee) {
+        mentee.nextSession = `${date} ${time}`;
+      }
+      
+      // Refresh displays
+      loadMentees();
+      loadUpcomingSessions();
+      closeModal('schedule-modal');
+      
+      showNotification(`Session scheduled with ${mentee.name} for ${new Date(`${date} ${time}`).toLocaleString()}`, 'success');
+      
+      // Reset form
+      document.getElementById('schedule-form').reset();
+    });
+
+    // View session history
+    function viewHistory(menteeId) {
+      const mentee = menteesData.find(m => m.id === menteeId);
+      const history = sessionHistory[menteeId] || [];
+      
+      document.querySelector('#history-modal .modal-header h2').textContent = `Session History - ${mentee.name}`;
+      
+      const historyContent = document.getElementById('history-content');
+      
+      if (history.length === 0) {
+        historyContent.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-history"></i>
+            <h3>No session history</h3>
+            <p>No sessions have been conducted with this mentee yet.</p>
+          </div>
+        `;
+      } else {
+        historyContent.innerHTML = history.map(session => `
+          <div class="history-item">
+            <div class="history-date">${session.date} • ${session.duration}</div>
+            <div class="history-content">
+              <strong>${session.topic}</strong><br>
+              ${session.notes}
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      document.getElementById('history-modal').style.display = 'block';
+    }
+
+    // Open end mentorship modal
+    function openEndMentorshipModal(menteeId) {
+      const mentee = menteesData.find(m => m.id === menteeId);
+      document.getElementById('end-mentee-name').textContent = mentee.name;
+      document.getElementById('end-mentorship-modal').setAttribute('data-mentee-id', menteeId);
+      document.getElementById('end-mentorship-modal').style.display = 'block';
+    }
+
+    // Confirm end mentorship
+    function confirmEndMentorship() {
+      const modal = document.getElementById('end-mentorship-modal');
+      const menteeId = parseInt(modal.getAttribute('data-mentee-id'));
+      const reason = document.getElementById('end-reason').value;
+      const sendCert = document.getElementById('send-completion-cert').checked;
+      
+      const mentee = menteesData.find(m => m.id === menteeId);
+      if (mentee) {
+        mentee.status = 'completed';
+        mentee.progress = 100;
+        mentee.nextSession = null;
+      }
+      
+      loadMentees();
+      updateStats();
+      closeModal('end-mentorship-modal');
+      
+      showNotification(`Mentorship with ${mentee.name} has been completed successfully!`, 'success');
+      
+      if (sendCert) {
+        setTimeout(() => {
+          showNotification('Completion certificate sent to mentee', 'info');
+        }, 1000);
+      }
+    }
+
+    // Update statistics
+    function updateStats() {
+      const activeMentees = menteesData.filter(m => m.status === 'active').length;
+      const totalSessions = menteesData.reduce((sum, mentee) => sum + mentee.totalSessions, 0);
+      const avgProgress = Math.round(menteesData.reduce((sum, mentee) => sum + mentee.progress, 0) / menteesData.length);
+      const upcomingSessions = menteesData.filter(m => m.nextSession).length;
+      
+      document.getElementById('active-mentees').textContent = activeMentees;
+      document.getElementById('total-sessions').textContent = totalSessions;
+      document.getElementById('avg-progress').textContent = avgProgress + '%';
+      document.getElementById('upcoming-sessions').textContent = upcomingSessions;
+    }
+
+    // Quick action functions
+    function openBulkMessageModal() {
+      showNotification('Bulk messaging feature coming soon!', 'info');
+    }
+
+    function exportProgress() {
+      showNotification('Progress report exported successfully!', 'success');
+    }
+
+    function openFeedbackModal() {
+      showNotification('Feedback collection feature coming soon!', 'info');
+    }
+
+    // Modal functions
+    function initializeModals() {
+      const modals = document.querySelectorAll('.modal');
+      const closeButtons = document.querySelectorAll('.close');
+      
+      closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          this.closest('.modal').style.display = 'none';
+        });
+      });
+      
+      modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Notification system
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        max-width: 350px;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        background: ${type === 'success' ? '#d4edda' : type === 'error' ? '#f8d7da' : '#d1ecf1'};
+        color: ${type === 'success' ? '#155724' : type === 'error' ? '#721c24' : '#0c5460'};
+        border: 1px solid ${type === 'success' ? '#c3e6cb' : type === 'error' ? '#f5c6cb' : '#bee5eb'};
+      `;
+      
+      notification.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+          <span>${message}</span>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 4000);
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+          modal.style.display = 'none';
+        });
+      }
+    });
+
+    console.log('My Mentees page loaded successfully!');
+  </script>
+</body>
+</html>

@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alumni Profile - Phoenix Alumni</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Navigation */
+    .navbar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1rem 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background-color: rgba(255,255,255,0.2);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Profile Header */
+    .profile-header {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 120px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      z-index: 1;
+    }
+
+    .profile-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .profile-top {
+      display: flex;
+      align-items: flex-end;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .profile-avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      border: 5px solid white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .profile-avatar:hover {
+      transform: scale(1.05);
+    }
+
+    .profile-info {
+      flex: 1;
+      color: white;
+      margin-top: 1rem;
+    }
+
+    .profile-info h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .profile-info .title {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-info .company {
+      font-size: 1.1rem;
+      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .edit-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: 2px solid rgba(255,255,255,0.3);
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .edit-btn:hover {
+      background: rgba(255,255,255,0.3);
+      border-color: rgba(255,255,255,0.5);
+      transform: translateY(-2px);
+    }
+
+    /* Mentorship Toggle */
+    .mentorship-toggle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(255,255,255,0.1);
+      padding: 1rem;
+      border-radius: 10px;
+      margin-top: 1rem;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 60px;
+      height: 30px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .toggle-switch.active {
+      background: #28a745;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .toggle-switch.active .toggle-slider {
+      transform: translateX(30px);
+    }
+
+    .toggle-label {
+      color: white;
+      font-weight: 500;
+    }
+
+    /* Main Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f8f9fa;
+    }
+
+    .card-header h2 {
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .card-header .edit-icon {
+      color: #667eea;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s;
+      margin-left: auto;
+    }
+
+    .card-header .edit-icon:hover {
+      background: #f0f2ff;
+      transform: scale(1.1);
+    }
+
+    /* Personal Information */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9ff;
+      border-radius: 10px;
+      border-left: 4px solid #667eea;
+      transition: all 0.3s;
+    }
+
+    .info-item:hover {
+      background: #e3f2fd;
+      transform: translateX(5px);
+    }
+
+    .info-icon {
+      width: 40px;
+      height: 40px;
+      background: #667eea;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .info-content h4 {
+      color: #333;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .info-content p {
+      color: #667;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    /* Skills Section */
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .skill-category {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .skill-category h4 {
+      color: #333;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #667eea;
+    }
+
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .skill-tag {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .skill-tag:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Links Section */
+    .links-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9ff;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #333;
+      transition: all 0.3s;
+      border-left: 4px solid transparent;
+    }
+
+    .link-item:hover {
+      background: #e3f2fd;
+      border-left-color: #667eea;
+      transform: translateX(5px);
+    }
+
+    .link-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    .linkedin-icon {
+      background: #0077b5;
+    }
+
+    .portfolio-icon {
+      background: #667eea;
+    }
+
+    .github-icon {
+      background: #333;
+    }
+
+    .link-content h4 {
+      margin-bottom: 0.25rem;
+      color: #333;
+    }
+
+    .link-content p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Bio Section */
+    .bio-content {
+      color: #555;
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    .bio-content p {
+      margin-bottom: 1rem;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .stat-number {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #667eea;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Achievements */
+    .achievements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .achievement-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9ff;
+      border-radius: 10px;
+      border-left: 4px solid #ffc107;
+    }
+
+    .achievement-icon {
+      width: 40px;
+      height: 40px;
+      background: #ffc107;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .achievement-content h4 {
+      color: #333;
+      margin-bottom: 0.25rem;
+    }
+
+    .achievement-content p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: 3% auto;
+      padding: 2rem;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 80vh;
+      overflow-y: auto;
+      animation: slideIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .modal-header h2 {
+      color: #333;
+    }
+
+    .close {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .close:hover {
+      background: #f8f9fa;
+      color: #333;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .btn {
+      padding: 0.75rem 2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #5a6fd8;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-top {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+
+      .profile-info h1 {
+        font-size: 2rem;
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-container {
+        flex-direction: column;
+      }
+
+      .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(102, 126, 234, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">Phoenix Alumni</div>
+      <div class="nav-links">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="profile.html" class="active">Profile</a>
+        <a href="connections.html">Connections</a>
+        <a href="mentees.html">My Mentees</a>
+        <a href="analytics.html">Analytics</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Profile Header -->
+    <div class="profile-header fade-in">
+      <div class="profile-content">
+        <div class="profile-top">
+          <div class="profile-avatar" onclick="changeProfilePicture()">
+            SJ
+          </div>
+          <div class="profile-info">
+            <h1>Sarah Johnson</h1>
+            <div class="title">Senior Software Engineer</div>
+            <div class="company">
+              <i class="fas fa-building"></i>
+              Google Inc.
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="edit-btn" onclick="openEditModal()">
+              <i class="fas fa-edit"></i>
+              Edit Profile
+            </button>
+          </div>
+        </div>
+        
+        <!-- Mentorship Availability Toggle -->
+        <div class="mentorship-toggle">
+          <div class="toggle-switch active" id="mentorship-toggle" onclick="toggleMentorship()">
+            <div class="toggle-slider"></div>
+          </div>
+          <div class="toggle-label">
+            <strong>Available for Mentorship</strong>
+            <div style="font-size: 0.9rem; opacity: 0.8;">Currently accepting new mentees</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="stats-grid fade-in">
+      <div class="stat-card">
+        <span class="stat-number">24</span>
+        <div class="stat-label">Students Mentored</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">5.0</span>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">156</span>
+        <div class="stat-label">Hours Contributed</div>
+      </div>
+      <div class="stat-card">
+        <span class="stat-number">12</span>
+        <div class="stat-label">Successful Referrals</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-grid">
+      <!-- Left Column -->
+      <div class="left-column">
+        <!-- Personal Information -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <h2><i class="fas fa-user"></i> Personal Information</h2>
+            <i class="fas fa-edit edit-icon" onclick="openEditModal('personal')" title="Edit Personal Info"></i>
+          </div>
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="info-content">
+                <h4>Branch</h4>
+                <p>Computer Science</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-calendar"></i>
+              </div>
+              <div class="info-content">
+                <h4>Graduation Year</h4>
+                <p>2020</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="info-content">
+                <h4>Batch</h4>
+                <p>CS-2020-A</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="info-content">
+                <h4>Email</h4>
+                <p>sarah.johnson@gmail.com</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-phone"></i>
+              </div>
+              <div class="info-content">
+                <h4>Phone</h4>
+                <p>+1 (555) 123-4567</p>
+              </div>
+            </div>
+            <div class="info-item">
+              <div class="info-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="info-content">
+                <h4>Location</h4>
+                <p>San Francisco, CA</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills & Expertise -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <h2><i class="fas fa-code"></i> Skills & Expertise</h2>
+            <i class="fas fa-edit edit-icon" onclick="openEditModal('skills')" title="Edit Skills"></i>
+          </div>
+          <div class="skills-container">
+            <div class="skill-category">
+              <h4>Programming Languages</h4>
+              <div class="skills-list">
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Java</span>
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">Go</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h4>Frameworks & Technologies</h4>
+              <div class="skills-list">
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">Express</span>
+                <span class="skill-tag">MongoDB</span>
+                <span class="skill-tag">AWS</span>
+                <span class="skill-tag">Docker</span>
+              </div>
+            </div>
+            <div class="skill-category">
+              <h4>Specializations</h4>
+              <div class="skills-list">
+                <span class="skill-tag">Full Stack Development</span>
+                <span class="skill-tag">System Design</span>
+                <span class="skill-tag">Machine Learning</span>
+                <span class="skill-tag">DevOps</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bio/About Me -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <h2><i class="fas fa-info-circle"></i> About Me</h2>
+            <i class="fas fa-edit edit-icon" onclick="openEditModal('bio')" title="Edit Bio"></i>
+          </div>
+          <div class="bio-content">
+            <p>
+              I'm a passionate software engineer with over 4 years of experience building scalable web applications 
+              at Google. I specialize in full-stack development using modern JavaScript frameworks and cloud technologies.
+            </p>
+            <p>
+              My journey in tech started during my computer science studies at Phoenix University, where I discovered 
+              my love for solving complex problems through code. Since graduation, I've had the privilege of working 
+              on products used by millions of users worldwide.
+            </p>
+            <p>
+              I'm deeply committed to giving back to the tech community, especially to students and new graduates. 
+              Through mentorship, I aim to help others navigate their career paths and develop the skills needed 
+              to succeed in the tech industry. I believe in the power of knowledge sharing and collaborative learning.
+            </p>
+            <p>
+              When I'm not coding, you can find me contributing to open source projects, writing technical blogs, 
+              or exploring the latest trends in AI and machine learning.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <!-- Professional Links -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <h2><i class="fas fa-link"></i> Professional Links</h2>
+            <i class="fas fa-edit edit-icon" onclick="openEditModal('links')" title="Edit Links"></i>
+          </div>
+          <div class="links-container">
+            <a href="https://linkedin.com/in/sarahjohnson" class="link-item" target="_blank">
+              <div class="link-icon linkedin-icon">
+                <i class="fab fa-linkedin-in"></i>
+              </div>
+              <div class="link-content">
+                <h4>LinkedIn Profile</h4>
+                <p>Connect with me professionally</p>
+              </div>
+            </a>
+            <a href="https://sarahjohnson.dev" class="link-item" target="_blank">
+              <div class="link-icon portfolio-icon">
+                <i class="fas fa-globe"></i>
+              </div>
+              <div class="link-content">
+                <h4>Portfolio Website</h4>
+                <p>View my projects and blog</p>
+              </div>
+            </a>
+            <a href="https://github.com/sarahjohnson" class="link-item" target="_blank">
+              <div class="link-icon github-icon">
+                <i class="fab fa-github"></i>
+              </div>
+              <div class="link-content">
+                <h4>GitHub Profile</h4>
+                <p>Check out my open source work</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="card fade-in">
+          <div class="card-header">
+            <h2><i class="fas fa-trophy"></i> Achievements</h2>
+          </div>
+          <div class="achievements-list">
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="achievement-content">
+                <h4>Top Mentor 2024</h4>
+                <p>Highest rated mentor with 5.0/5 rating</p>
+              </div>
+            </div>
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-medal"></i>
+              </div>
+              <div class="achievement-content">
+                <h4>Excellence in Mentorship</h4>
+                <p>Mentored 24+ students successfully</p>
+              </div>
+            </div>
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-handshake"></i>
+              </div>
+              <div class="achievement-content">
+                <h4>Referral Champion</h4>
+                <p>12 successful job referrals</p>
+              </div>
+            </div>
+            <div class="achievement-item">
+              <div class="achievement-icon">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="achievement-content">
+                <h4>Time Contributor</h4>
+                <p>156+ hours of mentorship</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Profile Modal -->
+  <div id="edit-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Profile</h2>
+        <span class="close" onclick="closeModal('edit-modal')">&times;</span>
+      </div>
+      <form id="edit-form">
+        <div class="form-group">
+          <label for="full-name">Full Name</label>
+          <input type="text" id="full-name" value="Sarah Johnson">
+        </div>
+        <div class="form-group">
+          <label for="job-title">Job Title</label>
+          <input type="text" id="job-title" value="Senior Software Engineer">
+        </div>
+        <div class="form-group">
+          <label for="company">Company</label>
+          <input type="text" id="company" value="Google Inc.">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" value="sarah.johnson@gmail.com">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" value="+1 (555) 123-4567">
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" value="San Francisco, CA">
+        </div>
+        <div class="form-group">
+          <label for="linkedin">LinkedIn URL</label>
+          <input type="url" id="linkedin" value="https://linkedin.com/in/sarahjohnson">
+        </div>
+        <div class="form-group">
+          <label for="portfolio">Portfolio URL</label>
+          <input type="url" id="portfolio" value="https://sarahjohnson.dev">
+        </div>
+        <div class="form-group">
+          <label for="github">GitHub URL</label>
+          <input type="url" id="github" value="https://github.com/sarahjohnson">
+        </div>
+        <div class="form-group">
+          <label for="bio">Bio/About Me</label>
+          <textarea id="bio" rows="6">I'm a passionate software engineer with over 4 years of experience building scalable web applications at Google. I specialize in full-stack development using modern JavaScript frameworks and cloud technologies.
+
+My journey in tech started during my computer science studies at Phoenix University, where I discovered my love for solving complex problems through code. Since graduation, I've had the privilege of working on products used by millions of users worldwide.</textarea>
+        </div>
+        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('edit-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Profile data
+    let profileData = {
+      name: "Sarah Johnson",
+      title: "Senior Software Engineer",
+      company: "Google Inc.",
+      email: "sarah.johnson@gmail.com",
+      phone: "+1 (555) 123-4567",
+      location: "San Francisco, CA",
+      branch: "Computer Science",
+      graduationYear: "2020",
+      batch: "CS-2020-A",
+      linkedin: "https://linkedin.com/in/sarahjohnson",
+      portfolio: "https://sarahjohnson.dev",
+      github: "https://github.com/sarahjohnson",
+      mentorshipAvailable: true,
+      bio: "I'm a passionate software engineer with over 4 years of experience...",
+      skills: {
+        programming: ["JavaScript", "Python", "Java", "TypeScript", "Go"],
+        frameworks: ["React", "Node.js", "Express", "MongoDB", "AWS", "Docker"],
+        specializations: ["Full Stack Development", "System Design", "Machine Learning", "DevOps"]
+      }
+    };
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeProfile();
+      initializeAnimations();
+      initializeModals();
+    });
+
+    // Initialize profile data
+    function initializeProfile() {
+      updateMentorshipToggle();
+      animateStats();
+    }
+
+    // Initialize animations
+    function initializeAnimations() {
+      const cards = document.querySelectorAll('.card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('fade-in');
+        }, index * 100);
+      });
+    }
+
+    // Animate statistics
+    function animateStats() {
+      const statNumbers = document.querySelectorAll('.stat-number');
+      statNumbers.forEach(stat => {
+        const finalValue = stat.textContent;
+        if (!isNaN(finalValue)) {
+          animateNumber(stat, 0, parseInt(finalValue), 2000);
+        } else if (finalValue.includes('.')) {
+          animateNumber(stat, 0, parseFloat(finalValue), 2000, true);
+        }
+      });
+    }
+
+    // Animate number counting
+    function animateNumber(element, start, end, duration, isFloat = false) {
+      const startTime = performance.now();
+      
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const current = start + (end - start) * progress;
+        element.textContent = isFloat ? current.toFixed(1) : Math.floor(current);
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      
+      requestAnimationFrame(update);
+    }
+
+    // Toggle mentorship availability
+    function toggleMentorship() {
+      const toggle = document.getElementById('mentorship-toggle');
+      const isActive = toggle.classList.contains('active');
+      
+      if (isActive) {
+        toggle.classList.remove('active');
+        profileData.mentorshipAvailable = false;
+        showNotification('Mentorship availability disabled', 'info');
+      } else {
+        toggle.classList.add('active');
+        profileData.mentorshipAvailable = true;
+        showNotification('You are now available for mentorship!', 'success');
+        
+        // Add pulse effect
+        toggle.classList.add('pulse');
+        setTimeout(() => {
+          toggle.classList.remove('pulse');
+        }, 2000);
+      }
+      
+      updateMentorshipToggle();
+    }
+
+    // Update mentorship toggle display
+    function updateMentorshipToggle() {
+      const toggle = document.getElementById('mentorship-toggle');
+      const label = document.querySelector('.toggle-label');
+      
+      if (profileData.mentorshipAvailable) {
+        toggle.classList.add('active');
+        label.innerHTML = `
+          <strong>Available for Mentorship</strong>
+          <div style="font-size: 0.9rem; opacity: 0.8;">Currently accepting new mentees</div>
+        `;
+      } else {
+        toggle.classList.remove('active');
+        label.innerHTML = `
+          <strong>Mentorship Unavailable</strong>
+          <div style="font-size: 0.9rem; opacity: 0.8;">Not accepting new mentees at this time</div>
+        `;
+      }
+    }
+
+    // Open edit modal
+    function openEditModal(section = 'general') {
+      populateEditForm();
+      document.getElementById('edit-modal').style.display = 'block';
+    }
+
+    // Populate edit form with current data
+    function populateEditForm() {
+      document.getElementById('full-name').value = profileData.name;
+      document.getElementById('job-title').value = profileData.title;
+      document.getElementById('company').value = profileData.company;
+      document.getElementById('email').value = profileData.email;
+      document.getElementById('phone').value = profileData.phone;
+      document.getElementById('location').value = profileData.location;
+      document.getElementById('linkedin').value = profileData.linkedin;
+      document.getElementById('portfolio').value = profileData.portfolio;
+      document.getElementById('github').value = profileData.github;
+      document.getElementById('bio').value = profileData.bio;
+    }
+
+    // Handle form submission
+    document.getElementById('edit-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Update profile data
+      profileData.name = document.getElementById('full-name').value;
+      profileData.title = document.getElementById('job-title').value;
+      profileData.company = document.getElementById('company').value;
+      profileData.email = document.getElementById('email').value;
+      profileData.phone = document.getElementById('phone').value;
+      profileData.location = document.getElementById('location').value;
+      profileData.linkedin = document.getElementById('linkedin').value;
+      profileData.portfolio = document.getElementById('portfolio').value;
+      profileData.github = document.getElementById('github').value;
+      profileData.bio = document.getElementById('bio').value;
+      
+      // Update UI
+      updateProfileDisplay();
+      
+      // Close modal and show success
+      closeModal('edit-modal');
+      showNotification('Profile updated successfully!', 'success');
+    });
+
+    // Update profile display
+    function updateProfileDisplay() {
+      // Update header
+      document.querySelector('.profile-info h1').textContent = profileData.name;
+      document.querySelector('.profile-info .title').textContent = profileData.title;
+      document.querySelector('.profile-info .company').innerHTML = `
+        <i class="fas fa-building"></i>
+        ${profileData.company}
+      `;
+      
+      // Update personal info
+      const infoItems = document.querySelectorAll('.info-item');
+      infoItems.forEach(item => {
+        const label = item.querySelector('h4').textContent.toLowerCase();
+        const valueElement = item.querySelector('p');
+        
+        switch(label) {
+          case 'email':
+            valueElement.textContent = profileData.email;
+            break;
+          case 'phone':
+            valueElement.textContent = profileData.phone;
+            break;
+          case 'location':
+            valueElement.textContent = profileData.location;
+            break;
+        }
+      });
+      
+      // Update links
+      const links = document.querySelectorAll('.link-item');
+      links.forEach(link => {
+        const linkText = link.querySelector('h4').textContent.toLowerCase();
+        if (linkText.includes('linkedin')) {
+          link.href = profileData.linkedin;
+        } else if (linkText.includes('portfolio')) {
+          link.href = profileData.portfolio;
+        } else if (linkText.includes('github')) {
+          link.href = profileData.github;
+        }
+      });
+      
+      // Update bio
+      document.querySelector('.bio-content').innerHTML = 
+        profileData.bio.split('\n\n').map(p => `<p>${p}</p>`).join('');
+    }
+
+    // Profile picture change
+    function changeProfilePicture() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      
+      input.onchange = function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const avatar = document.querySelector('.profile-avatar');
+            avatar.style.backgroundImage = `url(${e.target.result})`;
+            avatar.style.backgroundSize = 'cover';
+            avatar.style.backgroundPosition = 'center';
+            avatar.textContent = '';
+            
+            showNotification('Profile picture updated!', 'success');
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      
+      input.click();
+    }
+
+    // Modal functions
+    function initializeModals() {
+      const modals = document.querySelectorAll('.modal');
+      const closeButtons = document.querySelectorAll('.close');
+      
+      closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          this.closest('.modal').style.display = 'none';
+        });
+      });
+      
+      modals.forEach(modal => {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Notification system
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = `notification notification-${type}`;
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        max-width: 350px;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        background: ${type === 'success' ? '#d4edda' : type === 'error' ? '#f8d7da' : '#d1ecf1'};
+        color: ${type === 'success' ? '#155724' : type === 'error' ? '#721c24' : '#0c5460'};
+        border: 1px solid ${type === 'success' ? '#c3e6cb' : type === 'error' ? '#f5c6cb' : '#bee5eb'};
+      `;
+      
+      notification.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+          <span>${message}</span>
+        </div>
+      `;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+          if (notification.parentNode) {
+            notification.parentNode.removeChild(notification);
+          }
+        }, 300);
+      }, 4000);
+    }
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal').forEach(modal => {
+          modal.style.display = 'none';
+        });
+      }
+      
+      if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+        e.preventDefault();
+        openEditModal();
+      }
+    });
+
+    // Add hover effects to skill tags
+    document.addEventListener('DOMContentLoaded', function() {
+      const skillTags = document.querySelectorAll('.skill-tag');
+      skillTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = 'translateY(-2px)';
+          }, 150);
+          
+          showNotification(`Skill highlighted: ${this.textContent}`, 'info');
+        });
+      });
+    });
+
+    console.log('Profile page loaded successfully!');
+  </script>
+</body>
+</html>
