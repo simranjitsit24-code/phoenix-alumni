@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alumni Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">Phoenix Alumni</div>
+      <div class="nav-links">
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="profile.html">Profile</a>
+        <a href="connections.html">Connections</a>
+        <a href="mentees.html">My Mentees</a>
+        <a href="analytics.html">Analytics</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="dashboard">
+ 
+    <section class="welcome-banner">
+      <div class="welcome-content">
+        <h1>Welcome back, Sarah Johnson!</h1>
+        <p class="company-info">
+          <i class="fas fa-building"></i>
+          Senior Software Engineer at Google
+        </p>
+      </div>
+      <div class="welcome-avatar">
+        <img src="https://via.placeholder.com/80" alt="Profile Picture" />
+      </div>
+    </section>
+
+    <!-- Stats Cards -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <div class="stat-content">
+          <h3>24</h3>
+          <p>Students Mentored</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-handshake"></i>
+        </div>
+        <div class="stat-content">
+          <h3>12</h3>
+          <p>Referrals Made</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <div class="stat-content">
+          <h3>1,250</h3>
+          <p>Reward Points</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="fas fa-medal"></i>
+        </div>
+        <div class="stat-content">
+          <h3>#3</h3>
+          <p>Contribution Rank</p>
+        </div>
+      </div>
+    </section>
+    <div class="content-grid">
+      <div class="left-column">
+        <section class="card">
+          <h2><i class="fas fa-clock"></i> Pending Mentorship Requests</h2>
+          <div class="request-list">
+            <div class="request-item">
+              <div class="request-info">
+                <h4>Alex Chen</h4>
+                <p>Computer Science • Seeking guidance on web development career</p>
+                <span class="time">2 hours ago</span>
+              </div>
+              <div class="request-actions">
+                <button class="btn btn-primary">Accept</button>
+                <button class="btn btn-secondary">Decline</button>
+              </div>
+            </div>
+            <div class="request-item">
+              <div class="request-info">
+                <h4>Maria Rodriguez</h4>
+                <p>Data Science • Looking for internship advice</p>
+                <span class="time">1 day ago</span>
+              </div>
+              <div class="request-actions">
+                <button class="btn btn-primary">Accept</button>
+                <button class="btn btn-secondary">Decline</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="card">
+          <h2><i class="fas fa-calendar-alt"></i> Upcoming Mentoring Sessions</h2>
+          <div class="session-list">
+            <div class="session-item">
+              <div class="session-time">
+                <span class="date">Nov 20</span>
+                <span class="time">2:00 PM</span>
+              </div>
+              <div class="session-info">
+                <h4>1:1 with John Doe</h4>
+                <p>Career transition discussion</p>
+                <button class="btn btn-outline">Join Meeting</button>
+              </div>
+            </div>
+            <div class="session-item">
+              <div class="session-time">
+                <span class="date">Nov 22</span>
+                <span class="time">4:30 PM</span>
+              </div>
+              <div class="session-info">
+                <h4>Group Session: Interview Prep</h4>
+                <p>Technical interview strategies</p>
+                <button class="btn btn-outline">Join Meeting</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column -->
+      <div class="right-column">
+        <!-- Recent Activity -->
+        <section class="card">
+          <h2><i class="fas fa-activity"></i> Recent Activity</h2>
+          <div class="activity-feed">
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+              <div class="activity-content">
+                <p>You accepted a mentorship request from <strong>David Kim</strong></p>
+                <span class="time">3 hours ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-star"></i>
+              </div>
+              <div class="activity-content">
+                <p>Received 5-star rating from <strong>Emily Watson</strong></p>
+                <span class="time">1 day ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-briefcase"></i>
+              </div>
+              <div class="activity-content">
+                <p>Successfully referred <strong>Michael Lee</strong> to Tesla</p>
+                <span class="time">3 days ago</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">
+                <i class="fas fa-trophy"></i>
+              </div>
+              <div class="activity-content">
+                <p>Earned 100 reward points for completing mentorship milestone</p>
+                <span class="time">1 week ago</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Leaderboard -->
+        <section class="card">
+          <h2><i class="fas fa-medal"></i> Top Alumni Contributors</h2>
+          <div class="leaderboard">
+            <div class="leader-item rank-1">
+              <span class="rank">#1</span>
+              <div class="leader-info">
+                <h4>Jennifer Park</h4>
+                <p>1,850 points</p>
+              </div>
+              <i class="fas fa-crown"></i>
+            </div>
+            <div class="leader-item rank-2">
+              <span class="rank">#2</span>
+              <div class="leader-info">
+                <h4>Robert Smith</h4>
+                <p>1,420 points</p>
+              </div>
+            </div>
+            <div class="leader-item rank-3 current-user">
+              <span class="rank">#3</span>
+              <div class="leader-info">
+                <h4>Sarah Johnson (You)</h4>
+                <p>1,250 points</p>
+              </div>
+            </div>
+            <div class="leader-item">
+              <span class="rank">#4</span>
+              <div class="leader-info">
+                <h4>Thomas Anderson</h4>
+                <p>1,180 points</p>
+              </div>
+            </div>
+            <div class="leader-item">
+              <span class="rank">#5</span>
+              <div class="leader-info">
+                <h4>Lisa Chang</h4>
+                <p>990 points</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
